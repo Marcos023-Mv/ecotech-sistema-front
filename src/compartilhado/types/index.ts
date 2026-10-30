@@ -228,7 +228,7 @@ export interface LeituraColetada {
 export type NivelConhecimentoTecnologia = 'muito' | 'medio' | 'pouco';
 
 /** Nível de visualização do painel: define qual dashboard o usuário vê (menu, telas e quantidade de informação). */
-export type NivelDashboard = 'intermediario' | 'avancado';
+export type NivelDashboard = 'basico' | 'intermediario' | 'avancado';
 
 export interface CadastroForm {
   nome: string;

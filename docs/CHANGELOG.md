@@ -13,6 +13,15 @@ Registro do que foi feito no projeto, com base nos commits enviados ao GitHub (`
 
 ---
 
+## Dashboard básica (não commitado)
+
+- Novo nível `basico` (`NivelDashboard`): cadastro com resposta **Pouco** abre a básica (**Médio** → intermediária, **Muito** → avançada); pode ser trocado em Configurações (seletor com os três níveis).
+- `src/basico/`: Início (situação da horta, o que fazer agora, plantas) e Minhas plantas, com botão de regar por planta (5 min, com confirmação).
+- Regras em linguagem simples e testadas em `src/basico/regras/simples.ts`, derivadas do mesmo `useHorta`.
+- Validação de irrigação movida de `src/intermediario/regras/irrigacao.ts` para `src/compartilhado/utils/irrigacao.ts` (usada pelas duas).
+- `utils/nivel.ts`: `NIVEIS`, `DESCRICAO_NIVEL`, `ROTA_CONFIGURACOES` e tabela única de telas equivalentes entre os níveis; o Header usa o nível do usuário para achar as Configurações.
+- Detalhes: `docs/DASHBOARD_BASICA.md`.
+
 ## Evolução funcional da dashboard intermediária (não commitado)
 
 - Início reorganizado: faixa de atualização dos dados, resumo (monitoradas x cadastradas), ações rápidas, Central de atenção, Recomendações, plantas com semáforo/busca/filtros, gráfico principal com planta e período, irrigação e atividades recentes.

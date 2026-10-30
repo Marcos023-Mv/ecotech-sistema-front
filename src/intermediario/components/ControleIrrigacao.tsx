@@ -4,7 +4,7 @@ import { CheckIcon, PlayIcon, StopIcon, WarningIcon } from '../../compartilhado/
 import Modal from '../../compartilhado/components/Modal';
 import { useHorta } from '../../compartilhado/hooks/useHorta';
 import { FONTE_DADOS } from '../../compartilhado/utils/fonteDados';
-import { descreverComando, podePararIrrigacao, rotuloEstadoIrrigacao, validarInicioIrrigacao } from '../regras/irrigacao';
+import { descreverComando, podePararIrrigacao, rotuloEstadoIrrigacao, validarInicioIrrigacao } from '../../compartilhado/utils/irrigacao';
 
 const DURACOES = [3, 5, 10];
 const simulado = FONTE_DADOS.tipo === 'simulado';

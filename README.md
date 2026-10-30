@@ -289,6 +289,10 @@ Uma regra nova é só uma função `(valor, form) => string | undefined` (a mens
 
 Nova área em `/intermediario` (código em `src/intermediario/`). Detalhes, regras e limitações: [docs/DASHBOARD_INTERMEDIARIA.md](docs/DASHBOARD_INTERMEDIARIA.md).
 
+## 🌼 Dashboard básica
+
+Área em `/basico` (código em `src/basico/`) para quem respondeu **Pouco** no cadastro: como está a horta, o que fazer agora e um botão de regar por planta. Detalhes: [docs/DASHBOARD_BASICA.md](docs/DASHBOARD_BASICA.md).
+
 ---
 
 ## 🗂️ Organização das pastas
@@ -300,8 +304,9 @@ src/
 │   ├── components/  (AlertList, Table, IconButton)
 │   └── utils/       (csv.ts)
 ├── intermediario/   → TUDO da dashboard intermediária (/intermediario)
-├── compartilhado/   → usado pelas duas: Login, Cadastro, Configurações, componentes
+├── basico/          → TUDO da dashboard básica (/basico)
+├── compartilhado/   → usado pelas três: Login, Cadastro, Configurações, componentes
 │                      base (Button, Card, Sidebar...), context, api, types, utils, layouts
-├── routes/          → rotas do app (liga as duas dashboards)
+├── routes/          → rotas do app (liga as três dashboards)
 └── styles/          → tema e estilos globais
 ```

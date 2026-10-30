@@ -7,7 +7,8 @@ import Sensores from '../avancado/pages/Sensores';
 import Relatorios from '../avancado/pages/Relatorios';
 import Configuracoes from '../compartilhado/pages/Configuracoes';
 import { Alertas, Inicio, Irrigacao, MinhasPlantas, PlantaDetalhe } from '../intermediario';
-import { ROTAS, ROTAS_INTER } from './paths';
+import { Inicio as InicioBasico, Plantas as PlantasBasico } from '../basico';
+import { ROTAS, ROTAS_BASICO, ROTAS_INTER } from './paths';
 
 export interface PaginaProps {
   openMenu?: () => void;
@@ -38,4 +39,11 @@ export const ROTAS_INTERMEDIARIO: RotaPrivada[] = [
   { path: ROTAS_INTER.alertas, pagina: Alertas },
   // Reaproveita a tela existente de Configurações (tema, perfil, senha, notificações) dentro do layout intermediário.
   { path: ROTAS_INTER.configuracoes, pagina: Configuracoes },
+];
+
+/** Telas da dashboard básica (layout/menu de /basico). */
+export const ROTAS_BASICAS: RotaPrivada[] = [
+  { path: ROTAS_BASICO.inicio, pagina: InicioBasico },
+  { path: ROTAS_BASICO.plantas, pagina: PlantasBasico },
+  { path: ROTAS_BASICO.configuracoes, pagina: Configuracoes },
 ];

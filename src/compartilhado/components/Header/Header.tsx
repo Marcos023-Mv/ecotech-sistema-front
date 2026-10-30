@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ROTAS, ROTAS_INTER } from '../../../routes/paths';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { ROTAS } from '../../../routes/paths';
+import { useNavigate } from 'react-router-dom';
 import { FONTE_DADOS } from '../../utils/fonteDados';
 import { BellIcon, UserCircleIcon, LogoutIcon, GearIcon } from '../icons';
 import { useAuth } from '../../context/AuthContext';
 import { usePlants } from '../../context/PlantsContext';
+import { ROTA_CONFIGURACOES } from '../../utils/nivel';
 import './Header.css';
 
 interface HeaderProps {
@@ -19,13 +20,11 @@ export default function Header({ title, subtitle, icon, onOpenMenu }: HeaderProp
   const [userOpen, setUserOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
-  const { usuario, logout } = useAuth();
+  const { usuario, logout, nivel } = useAuth();
   const { alertas } = usePlants();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  // Dentro da dashboard intermediária o menu do usuário leva às Configurações dessa área.
-  const intermediario = pathname.startsWith(ROTAS.intermediario);
-  const caminhoConfig = intermediario ? ROTAS_INTER.configuracoes : ROTAS.configuracoes;
+  // O menu do usuário leva às Configurações dentro da dashboard do nível dele.
+  const caminhoConfig = ROTA_CONFIGURACOES[nivel];
 
   useEffect(() => {
     function onClick(e: MouseEvent) {

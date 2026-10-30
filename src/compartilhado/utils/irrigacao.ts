@@ -1,7 +1,7 @@
-import type { Plant, Sensor, SessaoIrrigacao } from '../../compartilhado/types';
-import type { ComandoIrrigacaoRegistro } from '../../compartilhado/context/PlantsContext';
-import { LIMITE_RESERVATORIO_BAIXO } from '../../compartilhado/utils/alertas';
-import type { PlantaMonitorada } from '../../compartilhado/utils/horta';
+import type { Plant, Sensor, SessaoIrrigacao } from '../types';
+import type { ComandoIrrigacaoRegistro } from '../context/PlantsContext';
+import { LIMITE_RESERVATORIO_BAIXO } from './alertas';
+import type { PlantaMonitorada } from './horta';
 
 export interface Validacao {
   permitido: boolean;

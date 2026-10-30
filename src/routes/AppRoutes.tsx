@@ -7,8 +7,9 @@ import { useIsWatch } from '../compartilhado/hooks/useIsWatch';
 import ProtectedRoute from './ProtectedRoute';
 import RotaDoNivel from './RotaDoNivel';
 import { ROTAS, ROTAS_INTER_REDIRECIONADAS } from './paths';
-import { ROTAS_INTERMEDIARIO, ROTAS_PRIVADAS } from './routeConfig';
+import { ROTAS_BASICAS, ROTAS_INTERMEDIARIO, ROTAS_PRIVADAS } from './routeConfig';
 import { IntermediarioLayout } from '../intermediario';
+import { BasicoLayout } from '../basico';
 
 export default function AppRoutes() {
   const isWatch = useIsWatch();
@@ -56,6 +57,19 @@ export default function AppRoutes() {
             <ProtectedRoute>
               <RotaDoNivel nivel="intermediario">
                 <IntermediarioLayout>{(openMenu: () => void) => <Pagina openMenu={openMenu} />}</IntermediarioLayout>
+              </RotaDoNivel>
+            </ProtectedRoute>
+          }
+        />
+      ))}
+      {ROTAS_BASICAS.map(({ path, pagina: Pagina }) => (
+        <Route
+          key={path}
+          path={path}
+          element={
+            <ProtectedRoute>
+              <RotaDoNivel nivel="basico">
+                <BasicoLayout>{(openMenu: () => void) => <Pagina openMenu={openMenu} />}</BasicoLayout>
               </RotaDoNivel>
             </ProtectedRoute>
           }

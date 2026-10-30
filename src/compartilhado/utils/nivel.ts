@@ -1,24 +1,37 @@
 import type { NivelConhecimentoTecnologia, NivelDashboard } from '../types';
-import { ROTAS, ROTAS_INTER } from '../../routes/paths';
+import { ROTAS, ROTAS_BASICO, ROTAS_INTER } from '../../routes/paths';
 
 /** Quem ainda não tem nível definido continua vendo a dashboard completa (comportamento anterior do sistema). */
 export const NIVEL_PADRAO: NivelDashboard = 'avancado';
 
-export const ROTULO_NIVEL: Record<NivelDashboard, string> = { intermediario: 'Intermediário', avancado: 'Avançado' };
+/** Do mais simples ao mais completo (ordem das opções em Configurações). */
+export const NIVEIS: NivelDashboard[] = ['basico', 'intermediario', 'avancado'];
+
+export const ROTULO_NIVEL: Record<NivelDashboard, string> = { basico: 'Básico', intermediario: 'Intermediário', avancado: 'Avançado' };
+
+export const DESCRICAO_NIVEL: Record<NivelDashboard, string> = {
+  basico: 'Painel bem simples: como estão as plantas, o que fazer agora e um botão para regar.',
+  intermediario: 'Painel simplificado para o acompanhamento diário.',
+  avancado: 'Painel completo, com históricos, comparações e controles avançados.',
+};
 
 /** Porta de entrada de cada nível. */
-export const ROTA_INICIAL: Record<NivelDashboard, string> = { intermediario: ROTAS_INTER.inicio, avancado: ROTAS.visaoGeral };
+export const ROTA_INICIAL: Record<NivelDashboard, string> = { basico: ROTAS_BASICO.inicio, intermediario: ROTAS_INTER.inicio, avancado: ROTAS.visaoGeral };
+
+/** Configurações dentro de cada nível (mesma tela, layout do nível). */
+export const ROTA_CONFIGURACOES: Record<NivelDashboard, string> = { basico: ROTAS_BASICO.configuracoes, intermediario: ROTAS_INTER.configuracoes, avancado: ROTAS.configuracoes };
 
 /**
- * Resposta do cadastro -> dashboard. Quem tem muita familiaridade com tecnologia usa a avançada;
- * quem tem média ou pouca usa a intermediária. Sem resposta, vale o padrão.
+ * Resposta do cadastro -> dashboard. Muita familiaridade com tecnologia -> avançada; média -> intermediária;
+ * pouca -> básica. Sem resposta, vale o padrão. Em todos os casos o usuário pode trocar depois em Configurações.
  */
 export function nivelDoConhecimento(conhecimento: NivelConhecimentoTecnologia | ''): NivelDashboard {
-  if (conhecimento === 'medio' || conhecimento === 'pouco') return 'intermediario';
+  if (conhecimento === 'pouco') return 'basico';
+  if (conhecimento === 'medio') return 'intermediario';
   return NIVEL_PADRAO;
 }
 
-export const ehNivel = (v: unknown): v is NivelDashboard => v === 'intermediario' || v === 'avancado';
+export const ehNivel = (v: unknown): v is NivelDashboard => NIVEIS.includes(v as NivelDashboard);
 
 /* ------------------------------------------------------------------ persistência (simulada, no navegador) */
 
@@ -51,19 +64,24 @@ export function salvarNivel(usuario: string, nivel: NivelDashboard): void {
 
 /* ------------------------------------------------------------------ redirecionamento entre níveis */
 
-/** Onde cada tela do outro nível "mora" no nível do usuário (quando existe equivalente); o resto vai para o início. */
-const EQUIVALENTE_NO_INTERMEDIARIO: Record<string, string> = {
-  [ROTAS.plantas]: ROTAS_INTER.plantas,
-  [ROTAS.monitor]: ROTAS_INTER.irrigacao,
-  [ROTAS.configuracoes]: ROTAS_INTER.configuracoes,
-};
-const EQUIVALENTE_NO_AVANCADO: Record<string, string> = {
-  [ROTAS_INTER.plantas]: ROTAS.plantas,
-  [ROTAS_INTER.irrigacao]: ROTAS.monitor,
-  [ROTAS_INTER.configuracoes]: ROTAS.configuracoes,
-};
+/**
+ * Telas equivalentes entre os níveis (quando existem). Quem abre uma tela de outro nível vai para a equivalente
+ * no seu; sem equivalente, vai para o início do seu nível.
+ */
+const EQUIVALENTES: Partial<Record<NivelDashboard, string>>[] = [
+  { avancado: ROTAS.plantas, intermediario: ROTAS_INTER.plantas, basico: ROTAS_BASICO.plantas },
+  { avancado: ROTAS.monitor, intermediario: ROTAS_INTER.irrigacao },
+  { avancado: ROTAS.configuracoes, intermediario: ROTAS_INTER.configuracoes, basico: ROTAS_BASICO.configuracoes },
+];
+
+/** Tira a barra final e trata o detalhe de uma planta (/intermediario/plantas/:id) como a lista de plantas. */
+function normalizar(caminho: string): string {
+  const semBarra = caminho.length > 1 ? caminho.replace(/\/+$/, '') : caminho;
+  return semBarra.startsWith(`${ROTAS_INTER.plantas}/`) ? ROTAS_INTER.plantas : semBarra;
+}
 
 export function destinoNoNivel(caminho: string, nivel: NivelDashboard): string {
-  const tabela = nivel === 'intermediario' ? EQUIVALENTE_NO_INTERMEDIARIO : EQUIVALENTE_NO_AVANCADO;
-  return tabela[caminho] ?? ROTA_INICIAL[nivel];
+  const normalizado = normalizar(caminho);
+  const grupo = EQUIVALENTES.find((g) => Object.values(g).includes(normalizado));
+  return grupo?.[nivel] ?? ROTA_INICIAL[nivel];
 }

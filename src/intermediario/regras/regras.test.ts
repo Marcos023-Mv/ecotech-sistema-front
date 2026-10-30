@@ -7,7 +7,7 @@ import { atividadesRecentes } from './atividades';
 import { avaliarAtualizacao } from './atualizacao';
 import { montarCentralAtencao } from './central';
 import { filtrarPlantas, plantasComAlerta } from './plantas';
-import { descreverComando, validarInicioIrrigacao } from './irrigacao';
+import { descreverComando, validarInicioIrrigacao } from '../../compartilhado/utils/irrigacao';
 import { gerarRecomendacoes } from './recomendacoes';
 import { contarSemaforo, semaforoDaPlanta } from './semaforo';
 

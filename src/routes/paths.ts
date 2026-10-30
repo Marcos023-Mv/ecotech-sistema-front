@@ -11,6 +11,15 @@ export const ROTAS = {
   configuracoes: '/configuracoes',
   /** Porta de entrada da dashboard intermediária (use este caminho para linkar a partir do cadastro). */
   intermediario: '/intermediario',
+  /** Porta de entrada da dashboard básica. */
+  basico: '/basico',
+} as const;
+
+/** Telas da dashboard básica. Todas ficam sob /basico. */
+export const ROTAS_BASICO = {
+  inicio: '/basico',
+  plantas: '/basico/plantas',
+  configuracoes: '/basico/configuracoes',
 } as const;
 
 /** Telas da dashboard intermediária. Todas ficam sob /intermediario. */

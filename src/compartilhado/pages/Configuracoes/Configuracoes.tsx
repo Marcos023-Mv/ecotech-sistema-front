@@ -25,7 +25,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import type { NivelDashboard } from '../../types';
-import { ROTULO_NIVEL } from '../../utils/nivel';
+import { DESCRICAO_NIVEL, NIVEIS, ROTULO_NIVEL } from '../../utils/nivel';
 import './Configuracoes.css';
 
 function Toggle({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) {
@@ -141,15 +141,12 @@ export default function Configuracoes({ openMenu }: { openMenu?: () => void }) {
             </div>
             <div className="nivel-painel">
               <strong>Nível do painel</strong>
-              <small>{avancado ? 'Painel completo, com históricos, comparações e controles avançados.' : 'Painel simplificado para o acompanhamento diário.'}</small>
+              <small>{DESCRICAO_NIVEL[nivel]}</small>
               <FilterToggle<NivelDashboard>
                 rotulo="Nível do painel"
                 valor={nivel}
                 onChange={definirNivel}
-                opcoes={[
-                  { valor: 'intermediario', rotulo: ROTULO_NIVEL.intermediario },
-                  { valor: 'avancado', rotulo: ROTULO_NIVEL.avancado },
-                ]}
+                opcoes={NIVEIS.map((n) => ({ valor: n, rotulo: ROTULO_NIVEL[n] }))}
               />
             </div>
             <button className="settings-link-row" onClick={() => setSenhaModalAberta(true)}>
