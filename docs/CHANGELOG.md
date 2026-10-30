@@ -13,7 +13,7 @@ Registro do que foi feito no projeto, com base nos commits enviados ao GitHub (`
 
 ---
 
-## Dashboard básica (não commitado)
+## 30/10/2026 — Dashboard básica (`e6864c2`)
 
 - Novo nível `basico` (`NivelDashboard`): cadastro com resposta **Pouco** abre a básica (**Médio** → intermediária, **Muito** → avançada); pode ser trocado em Configurações (seletor com os três níveis).
 - `src/basico/`: Início (situação da horta, o que fazer agora, plantas) e Minhas plantas, com botão de regar por planta (5 min, com confirmação).
@@ -21,6 +21,13 @@ Registro do que foi feito no projeto, com base nos commits enviados ao GitHub (`
 - Validação de irrigação movida de `src/intermediario/regras/irrigacao.ts` para `src/compartilhado/utils/irrigacao.ts` (usada pelas duas).
 - `utils/nivel.ts`: `NIVEIS`, `DESCRICAO_NIVEL`, `ROTA_CONFIGURACOES` e tabela única de telas equivalentes entre os níveis; o Header usa o nível do usuário para achar as Configurações.
 - Detalhes: `docs/DASHBOARD_BASICA.md`.
+
+**Correções de bugs (revisão das três interfaces):**
+
+- **Redirecionamento entre níveis** (`utils/nivel.ts`): o detalhe de uma planta da intermediária (`/intermediario/plantas/:id`) agora leva às Plantas do nível do usuário (antes caía no Início), e endereços com barra final (ex.: `/configuracoes/`) também acham a tela equivalente.
+- **Tarefas da básica** (`basico/regras/simples.ts`): terra encharcada com a rega ainda ligada gera a tarefa urgente "Pare de regar …" (antes dizia só "Não regue … por enquanto").
+- **Barra de umidade da básica** (`CartaoPlanta`): largura limitada entre 0% e 100%.
+- Testes novos para os dois primeiros casos (73 testes no total).
 
 ## Evolução funcional da dashboard intermediária (não commitado)
 
