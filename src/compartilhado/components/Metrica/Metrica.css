@@ -1,0 +1,18 @@
+.metrica { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; }
+.metrica-rotulo { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--text-secondary); }
+.metrica-icone { width: 24px; height: 24px; border-radius: var(--radius-xs); display: inline-flex; align-items: center; justify-content: center; background: var(--water-tint); color: var(--accent-blue); flex: none; }
+.metrica-icone svg { width: 14px; height: 14px; }
+.metrica-valor { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--text-primary); margin-top: 2px; }
+.metrica-valor small { font-size: 14px; font-weight: 700; color: var(--text-secondary); margin-left: 3px; letter-spacing: 0; }
+.metrica-status { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 700; }
+.metrica-contexto { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+.metrica-ok .metrica-status { color: var(--status-ideal-fg); }
+.metrica-atencao .metrica-status { color: var(--status-atencao-fg); }
+.metrica-critico .metrica-status { color: var(--status-abaixo-fg); }
+.metrica-offline .metrica-status { color: var(--status-offline-fg); }
+.metrica-info .metrica-status { color: var(--status-info-fg); }
+.metrica-critico .metrica-icone { background: var(--status-abaixo-bg); color: var(--status-abaixo-fg); }
+@media (max-width: 560px) {
+  .metrica { padding: 13px 14px; gap: 4px; }
+  .metrica-valor { font-size: 22px; }
+}

@@ -1,0 +1,110 @@
+.mapa { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+.mapa-area { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+
+/* Legenda: forma + número + texto por estado */
+.mapa-legenda { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.mapa-legenda-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-secondary); }
+.mapa-legenda-item strong { color: var(--text-primary); }
+
+.mapa-e-saudavel { --estado: var(--status-ideal-fg); --estado-bg: var(--status-ideal-bg); }
+.mapa-e-atencao { --estado: var(--status-atencao-fg); --estado-bg: var(--status-atencao-bg); }
+.mapa-e-critico { --estado: var(--status-abaixo-fg); --estado-bg: var(--status-abaixo-bg); }
+.mapa-e-sem_dados { --estado: var(--status-offline-fg); --estado-bg: var(--status-offline-bg); }
+.mapa-legenda-item svg { color: var(--estado); }
+
+/* Canteiros: blocos de "terra" com as plantas dentro */
+.mapa-canteiros { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.mapa-canteiro {
+  border-radius: var(--radius-md);
+  padding: 10px;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 9px, rgba(139, 101, 64, 0.05) 9px 10px),
+    var(--bg-card-alt);
+  border: 1px solid var(--border-subtle);
+}
+.mapa-canteiro header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 4px 8px; }
+.mapa-canteiro header span { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
+.mapa-canteiro header small { font-size: 11.5px; color: var(--text-muted); }
+.mapa-plantas { display: flex; flex-direction: column; gap: 6px; }
+
+.mapa-planta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--estado);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  font-size: 13.5px;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+.mapa-planta:hover { background: var(--bg-hover); border-color: var(--border-strong); border-left-color: var(--estado); }
+.mapa-planta:active { transform: scale(0.99); }
+.mapa-planta-ativa { background: var(--bg-hover); border-color: var(--estado); box-shadow: 0 0 0 1px var(--estado) inset; }
+.mapa-planta-estado { width: 24px; height: 24px; border-radius: 50%; background: var(--estado-bg); color: var(--estado); display: inline-flex; align-items: center; justify-content: center; }
+.mapa-planta-nome { display: flex; align-items: center; gap: 6px; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mapa-planta-emoji { font-size: 15px; }
+.mapa-planta strong { font-size: 15px; font-weight: 800; }
+.mapa-e-critico.mapa-planta strong { color: var(--status-abaixo-fg); }
+.mapa-e-sem_dados.mapa-planta { border-left-style: dashed; }
+.mapa-e-sem_dados.mapa-planta strong { color: var(--text-muted); }
+.mapa-planta small { grid-column: 2 / -1; font-size: 11px; color: var(--text-muted); }
+
+/* Painel da planta selecionada */
+.mapa-painel { position: sticky; top: 92px; display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: var(--radius-md); background: var(--bg-card-alt); border: 1px solid var(--border-subtle); animation: eco-rise 0.25s var(--ease-out) both; }
+.mapa-painel-topo { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mapa-painel-topo > div { flex: 1; min-width: 0; }
+.mapa-painel-topo h3 { margin: 0; font-size: 17px; color: var(--text-primary); }
+.mapa-painel-topo small { font-size: 12px; color: var(--text-muted); }
+.mapa-painel-emoji { width: 38px; height: 38px; border-radius: 50%; background: var(--bg-input); display: inline-flex; align-items: center; justify-content: center; font-size: 19px; flex: none; }
+.mapa-painel-motivo { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.45; }
+
+.mapa-barra { position: relative; height: 8px; border-radius: 999px; background: var(--bg-input); margin: 4px 0; }
+.mapa-barra-faixa { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: color-mix(in srgb, var(--status-ideal-fg) 45%, transparent); }
+.mapa-barra-marca { position: absolute; top: -4px; bottom: -4px; width: 3px; margin-left: -1.5px; border-radius: 2px; background: var(--text-primary); transition: left 0.6s var(--ease-out); }
+
+.mapa-dados { margin: 0; display: flex; flex-direction: column; }
+.mapa-dados > div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--border-subtle); font-size: 13px; }
+.mapa-dados > div:last-child { border-bottom: none; }
+.mapa-dados dt { color: var(--text-muted); }
+.mapa-dados dd { margin: 0; color: var(--text-primary); font-weight: 600; text-align: right; }
+
+.mapa-historico { display: flex; flex-direction: column; gap: 6px; }
+.mapa-historico > span { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.mapa-spark { width: 100%; height: 64px; display: block; border-radius: var(--radius-xs); background: var(--bg-input); }
+.mapa-spark-faixa { fill: color-mix(in srgb, var(--status-ideal-fg) 12%, transparent); }
+.mapa-spark-linha { fill: none; stroke: var(--accent-green); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.mapa-spark-ponto { fill: var(--accent-green); }
+.mapa-spark-vazio { margin: 0; font-size: 12.5px; color: var(--text-muted); }
+
+.mapa-painel-acao { margin: 0; padding: 9px 11px; border-radius: var(--radius-xs); background: var(--water-tint); font-size: 13px; color: var(--text-primary); line-height: 1.45; }
+.mapa-painel-acao strong { color: var(--accent-blue); }
+.mapa-painel-btn { width: 100%; }
+
+.mapa-tecnico .mapa-canteiros { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+
+@media (max-width: 1100px) {
+  .mapa { grid-template-columns: 1fr; }
+  .mapa-painel { position: static; }
+}
+@media (max-width: 560px) {
+  /* Celular: um canteiro por linha, plantas do canteiro lado a lado (nomes sem cortes). */
+  .mapa-canteiros, .mapa-tecnico .mapa-canteiros { grid-template-columns: 1fr; gap: 8px; }
+  .mapa-plantas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mapa-canteiro { padding: 8px; }
+  .mapa-planta { padding: 8px 7px; gap: 2px 6px; font-size: 13px; }
+  .mapa-planta-estado { width: 20px; height: 20px; }
+  .mapa-planta-emoji { display: none; }
+  .mapa-planta strong { font-size: 14px; }
+}
+@media (max-width: 340px) {
+  .mapa-plantas { grid-template-columns: 1fr; }
+}
+.mapa-painel { scroll-margin-top: 80px; scroll-margin-bottom: 16px; }
